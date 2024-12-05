@@ -13,7 +13,6 @@ import java.util.Map;
 public class DeviceInfoModule extends ReactContextBaseJavaModule {
     String NativeModuleName = "DeviceInfoModule";
     String unknown = "unknown";
-    int minusOne = -1;
 
     private final MemoryHelper memoryHelper;
     private final Intent batteryStatus;
@@ -50,27 +49,29 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isBatteryCharging() {
         // Are we charging / charged?
+        System.out.println("called isBatteryCharging");
         int status = this.batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
+        System.out.println("status" + status);
         return status == BatteryManager.BATTERY_STATUS_CHARGING ||
                 status == BatteryManager.BATTERY_STATUS_FULL;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isUSBBatteryCharge() {
         // is charging through USB
         return chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isACBatteryCharge() {
         // is charging through AC plug
         return chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public float getBatteryPercentage() {
         // battery percentage
         int level = this.batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
@@ -78,35 +79,38 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
         return level * 100 / (float)scale;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public boolean isLowMemory() {
         //verify is device is on low RAM
         return this.memoryHelper.isLowMemory();
     }
 
-    @ReactMethod
-    public float getAvailableMemory() {
+    public String formatMemoryInGB(long bytes) {
+        double gb = bytes / (1024.0 * 1024.0 * 1024.0);
+        return String.format("%.2f GB", gb);
+    }
+
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String getAvailableMemory() {
         // get what RAM is available
-        return this.memoryHelper.getAvailableMemory();
+        return formatMemoryInGB(this.memoryHelper.getAvailableMemory());
     }
 
-    @ReactMethod
-    public float getTotalMemory() {
+    @ReactMethod(isBlockingSynchronousMethod = true)
+    public String getTotalMemory() {
         // get what is total RAM of device
-        return this.memoryHelper.getTotalMemory();
+        return formatMemoryInGB(this.memoryHelper.getTotalMemory());
     }
 
-    @ReactMethod
     public String getVersionName() throws Exception {
        return getPackageInfo().versionName;
     }
 
-    @ReactMethod
     public int getVersionCode() throws Exception {
         return getPackageInfo().versionCode;
     }
 
-    @ReactMethod
+    @ReactMethod(isBlockingSynchronousMethod = true)
     public String getReadableVersion() {
         try {
             int versionCode = getVersionCode();

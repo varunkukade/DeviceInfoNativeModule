@@ -27,6 +27,7 @@ end
 
 target 'DeviceInfoNativeModulePOC' do
   config = use_native_modules!
+  pod 'DeviceKit', '~> 5.5'
 
   # Flags change depending on the env values.
   flags = get_default_flags()

@@ -19,6 +19,8 @@ import {
   fetchOsVersion,
   fetchProduct,
   fetchTotalMemory,
+  isAndroid,
+  isIOS,
 } from './DeviceInfoModule';
 
 type TDeviceInfo = {
@@ -158,28 +160,48 @@ function App(): JSX.Element {
                 'Charging',
                 deviceInfo?.isBatteryCharging ? 'Active' : 'Inactive',
               )}
-              {renderInfoRow(
-                'AC Charge',
-                deviceInfo?.isACBatteryCharge ? 'Connected' : 'Disconnected',
-              )}
-              {renderInfoRow(
-                'USB Charge',
-                deviceInfo?.isUSBBatteryCharge ? 'Connected' : 'Disconnected',
-              )}
+              {isAndroid
+                ? renderInfoRow(
+                    'AC Charge',
+                    deviceInfo?.isACBatteryCharge
+                      ? 'Connected'
+                      : 'Disconnected',
+                  )
+                : null}
+              {isAndroid
+                ? renderInfoRow(
+                    'USB Charge',
+                    deviceInfo?.isUSBBatteryCharge
+                      ? 'Connected'
+                      : 'Disconnected',
+                  )
+                : null}
             </>,
           )}
 
-          {renderSection(
-            'Memory Insights',
-            <>
-              {renderInfoRow(
-                'Memory Status',
-                deviceInfo?.isLowMemory ? 'Low Memory' : 'Sufficient',
+          {isAndroid
+            ? renderSection(
+                'RAM Insights',
+                <>
+                  {renderInfoRow(
+                    'RAM Status',
+                    deviceInfo?.isLowMemory ? 'Low Memory' : 'Sufficient',
+                  )}
+                  {renderInfoRow('Available RAM', deviceInfo?.availableMemory)}
+                  {renderInfoRow('Total RAM', deviceInfo?.totalMemory)}
+                </>,
+              )
+            : renderSection(
+                'Storage Insights',
+                <>
+                  {renderInfoRow(
+                    'Storage Status',
+                    deviceInfo?.isLowMemory ? 'Low Storage' : 'Sufficient',
+                  )}
+                  {renderInfoRow('Available', deviceInfo?.availableMemory)}
+                  {renderInfoRow('Total', deviceInfo?.totalMemory)}
+                </>,
               )}
-              {renderInfoRow('Available', deviceInfo?.availableMemory)}
-              {renderInfoRow('Total', deviceInfo?.totalMemory)}
-            </>,
-          )}
 
           {renderSection(
             'Application',

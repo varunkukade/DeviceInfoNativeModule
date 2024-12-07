@@ -11,8 +11,8 @@ type DeviceInfoConstants = {
   osVersion: string;
 };
 
-const isAndroid = Platform.OS === 'android';
-const isIOS = Platform.OS === 'ios';
+export const isAndroid = Platform.OS === 'android';
+export const isIOS = Platform.OS === 'ios';
 
 type TDeviceInfo = {
   isBatteryCharging: (callback: (value: boolean) => void) => boolean;

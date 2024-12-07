@@ -9,6 +9,7 @@ import android.os.Build;
 import java.lang.System;
 import java.util.HashMap;
 import java.util.Map;
+import com.facebook.react.bridge.Callback;
 
 public class DeviceInfoModule extends ReactContextBaseJavaModule {
     String NativeModuleName = "DeviceInfoModule";
@@ -49,40 +50,38 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
         return constants;
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean isBatteryCharging() {
+    @ReactMethod
+    public void isBatteryCharging(Callback callBack) {
         // Are we charging / charged?
-        System.out.println("called isBatteryCharging");
         int status = this.batteryStatus.getIntExtra(BatteryManager.EXTRA_STATUS, -1);
-        System.out.println("status" + status);
-        return status == BatteryManager.BATTERY_STATUS_CHARGING ||
-                status == BatteryManager.BATTERY_STATUS_FULL;
+        callBack.invoke(status == BatteryManager.BATTERY_STATUS_CHARGING ||
+                status == BatteryManager.BATTERY_STATUS_FULL);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean isUSBBatteryCharge() {
+    @ReactMethod
+    public void isUSBBatteryCharge(Callback callBack) {
         // is charging through USB
-        return chargePlug == BatteryManager.BATTERY_PLUGGED_USB;
+        callBack.invoke(chargePlug == BatteryManager.BATTERY_PLUGGED_USB);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean isACBatteryCharge() {
+    @ReactMethod
+    public void isACBatteryCharge(Callback callBack) {
         // is charging through AC plug
-        return chargePlug == BatteryManager.BATTERY_PLUGGED_AC;
+        callBack.invoke(chargePlug == BatteryManager.BATTERY_PLUGGED_AC);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public float getBatteryPercentage() {
+    @ReactMethod
+    public void getBatteryPercentage(Callback callBack) {
         // battery percentage
         int level = this.batteryStatus.getIntExtra(BatteryManager.EXTRA_LEVEL, -1);
         int scale = this.batteryStatus.getIntExtra(BatteryManager.EXTRA_SCALE, -1);
-        return level * 100 / (float)scale;
+        callBack.invoke(level * 100 / (float)scale);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public boolean isLowMemory() {
+    @ReactMethod
+    public void isLowMemory(Callback callBack) {
         //verify is device is on low RAM
-        return this.memoryHelper.isLowMemory();
+        callBack.invoke(this.memoryHelper.isLowMemory());
     }
 
     public String formatMemoryInGB(long bytes) {
@@ -90,16 +89,16 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
         return String.format("%.2f GB", gb);
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getAvailableMemory() {
+    @ReactMethod
+    public void getAvailableMemory(Callback callBack) {
         // get what RAM is available
-        return formatMemoryInGB(this.memoryHelper.getAvailableMemory());
+        callBack.invoke(formatMemoryInGB(this.memoryHelper.getAvailableMemory()));
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getTotalMemory() {
+    @ReactMethod
+    public void getTotalMemory(Callback callBack) {
         // get what is total RAM of device
-        return formatMemoryInGB(this.memoryHelper.getTotalMemory());
+        callBack.invoke(formatMemoryInGB(this.memoryHelper.getTotalMemory()));
     }
 
     public String getVersionName() throws Exception {
@@ -110,16 +109,16 @@ public class DeviceInfoModule extends ReactContextBaseJavaModule {
         return getPackageInfo().versionCode;
     }
 
-    @ReactMethod(isBlockingSynchronousMethod = true)
-    public String getReadableVersion() {
+    @ReactMethod
+    public void getReadableVersion(Callback callBack) {
         try {
             int versionCode = getVersionCode();
             String versionName = getVersionName();
-            return versionName + '.' + versionCode;
+            callBack.invoke(versionName + '.' + versionCode);
         } catch (Exception e) {
             // Handle the exception
             System.err.println("An error occurred while fetching readableVersion: " + e.getMessage());
-            return unknown;
+            callBack.invoke(unknown);
         }
     }
 }

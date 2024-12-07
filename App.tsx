@@ -1,8 +1,25 @@
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, Text, StyleSheet, View} from 'react-native';
 
-import DeviceInfoModule from './DeviceInfoModule';
 import LinearGradient from 'react-native-linear-gradient';
+import {
+  fetchAppVersion,
+  fetchAvailableMemory,
+  fetchBatteryPercentage,
+  fetchDevice,
+  fetchDeviceBrand,
+  fetchDeviceManufacturer,
+  fetchDeviceModel,
+  fetchHardware,
+  fetchIsACBatteryCharge,
+  fetchIsDeviceCharging,
+  fetchIsLowMemory,
+  fetchIsUSBBatteryCharge,
+  fetchOsName,
+  fetchOsVersion,
+  fetchProduct,
+  fetchTotalMemory,
+} from './DeviceInfoModule';
 
 type TDeviceInfo = {
   isBatteryCharging: boolean;
@@ -13,34 +30,67 @@ type TDeviceInfo = {
   availableMemory: string;
   totalMemory: string;
   appVersion: string;
+  deviceBrand: string;
+  device: string;
+  deviceModel: string;
+  deviceManufacturer: string;
+  product: string;
+  osName: string;
+  osVersion: string;
+  hardware: string;
 };
 
 function App(): JSX.Element {
   const [deviceInfo, setDeviceInfo] = useState<TDeviceInfo | null>(null);
 
-  const {
-    deviceBrand,
-    device,
-    deviceModel,
-    deviceManufacturer,
-    product,
-    osName,
-    osVersion,
-    hardware,
-  } = DeviceInfoModule.getConstants();
-
   useEffect(() => {
-    setDeviceInfo({
-      isBatteryCharging: DeviceInfoModule.isBatteryCharging(),
-      isACBatteryCharge: DeviceInfoModule.isACBatteryCharge(),
-      isUSBBatteryCharge: DeviceInfoModule.isUSBBatteryCharge(),
-      batteryPercentage: DeviceInfoModule.getBatteryPercentage(),
-      isLowMemory: DeviceInfoModule.isLowMemory(),
-      availableMemory: DeviceInfoModule.getAvailableMemory(),
-      totalMemory: DeviceInfoModule.getTotalMemory(),
-      appVersion: DeviceInfoModule.getReadableVersion(),
-    });
-  }, [])
+    (() => {
+      const promises = [
+        fetchIsDeviceCharging(),
+        fetchIsACBatteryCharge(),
+        fetchIsUSBBatteryCharge(),
+        fetchBatteryPercentage(),
+        fetchIsLowMemory(),
+        fetchAvailableMemory(),
+        fetchTotalMemory(),
+        fetchAppVersion(),
+        fetchDeviceBrand(),
+        fetchDevice(),
+        fetchDeviceModel(),
+        fetchDeviceManufacturer(),
+        fetchProduct(),
+        fetchOsName(),
+        fetchOsVersion(),
+        fetchHardware(),
+      ];
+      Promise.all(promises)
+        .then(result => {
+          if (result && result.length === promises.length) {
+            setDeviceInfo({
+              isBatteryCharging: result[0] as boolean,
+              isACBatteryCharge: result[1] as boolean,
+              isUSBBatteryCharge: result[2] as boolean,
+              batteryPercentage: result[3] as number,
+              isLowMemory: result[4] as boolean,
+              availableMemory: result[5] as string,
+              totalMemory: result[6] as string,
+              appVersion: result[7] as string,
+              deviceBrand: result[8] as string,
+              device: result[9] as string,
+              deviceModel: result[10] as string,
+              deviceManufacturer: result[11] as string,
+              product: result[12] as string,
+              osName: result[13] as string,
+              osVersion: result[14] as string,
+              hardware: result[15] as string,
+            });
+          }
+        })
+        .catch(error => {
+          console.log('error', error);
+        });
+    })();
+  }, []);
 
   // Helper function to render info rows with gradient effect
   const renderInfoRow = (label, value) => (
@@ -83,20 +133,20 @@ function App(): JSX.Element {
           {renderSection(
             'Device Information',
             <>
-              {renderInfoRow('Brand', deviceBrand)}
-              {renderInfoRow('Device', device)}
-              {renderInfoRow('Model', deviceModel)}
-              {renderInfoRow('Manufacturer', deviceManufacturer)}
-              {renderInfoRow('Product', product)}
+              {renderInfoRow('Brand', deviceInfo?.deviceBrand)}
+              {renderInfoRow('Device', deviceInfo?.device)}
+              {renderInfoRow('Model', deviceInfo?.deviceModel)}
+              {renderInfoRow('Manufacturer', deviceInfo?.deviceManufacturer)}
+              {renderInfoRow('Product', deviceInfo?.product)}
             </>,
           )}
 
           {renderSection(
             'System Details',
             <>
-              {renderInfoRow('OS Name', osName)}
-              {renderInfoRow('OS Version', osVersion)}
-              {renderInfoRow('Hardware', hardware)}
+              {renderInfoRow('OS Name', deviceInfo?.osName)}
+              {renderInfoRow('OS Version', deviceInfo?.osVersion)}
+              {renderInfoRow('Hardware', deviceInfo?.hardware)}
             </>,
           )}
 

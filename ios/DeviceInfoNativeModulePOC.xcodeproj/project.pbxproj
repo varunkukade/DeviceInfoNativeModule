@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* DeviceInfoNativeModulePOCTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* DeviceInfoNativeModulePOCTests.m */; };
+		0626D2362D044B3000EF5204 /* DeviceInfoModule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0626D2352D044B3000EF5204 /* DeviceInfoModule.swift */; };
+		0626D2382D044B8B00EF5204 /* DeviceInfoModule.m in Sources */ = {isa = PBXBuildFile; fileRef = 0626D2372D044B8B00EF5204 /* DeviceInfoModule.m */; };
 		0C80B921A6F3F58F76C31292 /* libPods-DeviceInfoNativeModulePOC.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-DeviceInfoNativeModulePOC.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
@@ -30,6 +32,9 @@
 		00E356EE1AD99517003FC87E /* DeviceInfoNativeModulePOCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DeviceInfoNativeModulePOCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* DeviceInfoNativeModulePOCTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoNativeModulePOCTests.m; sourceTree = "<group>"; };
+		0626D2342D044B2F00EF5204 /* DeviceInfoNativeModulePOC-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "DeviceInfoNativeModulePOC-Bridging-Header.h"; sourceTree = "<group>"; };
+		0626D2352D044B3000EF5204 /* DeviceInfoModule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceInfoModule.swift; sourceTree = "<group>"; };
+		0626D2372D044B8B00EF5204 /* DeviceInfoModule.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DeviceInfoModule.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* DeviceInfoNativeModulePOC.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeviceInfoNativeModulePOC.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = DeviceInfoNativeModulePOC/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = DeviceInfoNativeModulePOC/AppDelegate.mm; sourceTree = "<group>"; };
@@ -92,6 +97,9 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				0626D2352D044B3000EF5204 /* DeviceInfoModule.swift */,
+				0626D2342D044B2F00EF5204 /* DeviceInfoNativeModulePOC-Bridging-Header.h */,
+				0626D2372D044B8B00EF5204 /* DeviceInfoModule.m */,
 			);
 			name = DeviceInfoNativeModulePOC;
 			sourceTree = "<group>";
@@ -207,7 +215,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1610;
 					};
 				};
 			};
@@ -413,7 +421,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
+				0626D2362D044B3000EF5204 /* DeviceInfoModule.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				0626D2382D044B8B00EF5204 /* DeviceInfoModule.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -500,6 +510,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DeviceInfoNativeModulePOC;
+				SWIFT_OBJC_BRIDGING_HEADER = "DeviceInfoNativeModulePOC-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -526,6 +537,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = DeviceInfoNativeModulePOC;
+				SWIFT_OBJC_BRIDGING_HEADER = "DeviceInfoNativeModulePOC-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
